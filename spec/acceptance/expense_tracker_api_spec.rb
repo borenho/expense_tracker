@@ -23,6 +23,11 @@ module ExpenseTracker
       expense.merge('id' => parsed['expense_id'])
     end
 
+    def parse_last_response(last_response)
+      parsed = JSON.parse(last_response.body)
+      expect(parsed).to include('expense_id' => a_kind_of(Integer))
+    end
+
     it 'records submitted expenses' do
       pending 'Need to persist expenses'
 
@@ -46,18 +51,15 @@ module ExpenseTracker
 
       post '/expenses', JSON.generate(coffee)
       expect(last_response.status).to eq(200)
-      parsed = JSON.parse(last_response.body)
-      expect(parsed).to include('expense_id' => a_kind_of(Integer))
+      parse_last_response(last_response)
 
       post '/expenses', JSON.generate(zoo)
       expect(last_response.status).to eq(200)
-      parsed = JSON.parse(last_response.body)
-      expect(parsed).to include('expense_id' => a_kind_of(Integer))
+      parse_last_response(last_response)
 
       post '/expenses', JSON.generate(groceries)
       expect(last_response.status).to eq(200)
-      parsed = JSON.parse(last_response.body)
-      expect(parsed).to include('expense_id' => a_kind_of(Integer))
+      parse_last_response(last_response)
 
       get '/expenses/2018-06-26'
       expect(last_response.status).to eq(200)

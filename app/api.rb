@@ -2,6 +2,7 @@
 
 require 'sinatra/base'
 require 'json'
+require_relative 'ledger'
 
 module ExpenseTracker
   class API < Sinatra::Base
@@ -23,7 +24,8 @@ module ExpenseTracker
     end
 
     get '/expenses/:date' do
-      JSON.generate([])
+      date = '2018-06-25'
+      JSON.generate(@ledger.expenses_on(date))
     end
   end
 end
