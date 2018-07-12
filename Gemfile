@@ -13,3 +13,7 @@ gem 'coderay'
 
 # API
 gem 'rack-test'
+
+# DB
+gem 'sequel'
+gem 'sqlite3'
